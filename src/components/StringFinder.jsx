@@ -21,7 +21,7 @@ export default function StringFinder({ selectedStyle, setSelectedStyle }) {
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {filtered.map((string) => (
             <Card key={string.type}>
-              <Cable className="text-court-green" />
+              <Cable className="text-court-blue" />
               <h3 className="mt-4 text-xl font-black text-white">{string.type}</h3>
               <p className="mt-2 text-sm font-bold text-court-blue">{string.tensionRange}</p>
               <p className="mt-4 text-sm leading-6 text-slate-300">{string.bestFor}</p>

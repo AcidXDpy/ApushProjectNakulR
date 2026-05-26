@@ -30,7 +30,7 @@ export default function MatchupAdvisor({ playerStyle, opponentStyle, setPlayerSt
               </select>
             </label>
             <div className="hidden place-items-center rounded-lg border border-white/10 bg-white/[0.04] p-3 md:grid">
-              <Swords className="text-court-green" />
+              <Swords className="text-court-blue" />
             </div>
             <label className="block">
               <span className="mb-2 block text-sm font-bold text-slate-300">Opponent style</span>

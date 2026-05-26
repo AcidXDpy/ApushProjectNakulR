@@ -14,7 +14,7 @@ export default function Navbar() {
     <header className="sticky top-0 z-40 border-b border-white/10 bg-court-ink/82 backdrop-blur-xl">
       <nav className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-6 lg:px-8">
         <a href="#home" className="flex items-center gap-3">
-          <span className="grid h-10 w-10 place-items-center rounded-lg bg-gradient-to-br from-court-green to-court-blue text-court-ink font-black">CV</span>
+          <span className="grid h-10 w-10 place-items-center rounded-lg bg-gradient-to-br from-court-blue to-slate-200 text-court-ink font-black">CV</span>
           <span>
             <span className="block text-lg font-black tracking-wide">CourtVision</span>
             <span className="hidden text-xs text-slate-400 sm:block">Tennis improvement advisor</span>
@@ -28,7 +28,7 @@ export default function Navbar() {
             </a>
           ))}
         </div>
-        <a href="#quiz" className="focus-ring rounded-lg bg-court-green px-4 py-2 text-sm font-bold text-court-ink transition hover:bg-court-lime">
+        <a href="#quiz" className="focus-ring rounded-lg bg-court-blue px-4 py-2 text-sm font-bold text-white transition hover:bg-court-green hover:text-court-ink">
           Start Quiz
         </a>
       </nav>

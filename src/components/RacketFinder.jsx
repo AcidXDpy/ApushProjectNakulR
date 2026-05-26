@@ -11,7 +11,7 @@ function Rating({ label, value }) {
         <span>{value}/10</span>
       </div>
       <div className="h-2 overflow-hidden rounded-full bg-white/10">
-        <div className="h-full rounded-full bg-gradient-to-r from-court-green to-court-blue" style={{ width: `${value * 10}%` }} />
+        <div className="h-full rounded-full bg-gradient-to-r from-court-blue to-court-green" style={{ width: `${value * 10}%` }} />
       </div>
     </div>
   );
@@ -25,7 +25,7 @@ export default function RacketFinder({ selectedStyle, setSelectedStyle }) {
       <div className="mx-auto max-w-7xl">
         <div className="mb-8 flex flex-col justify-between gap-4 md:flex-row md:items-end">
           <div>
-            <p className="text-sm font-bold uppercase tracking-[0.18em] text-court-green">Racket Finder</p>
+            <p className="text-sm font-bold uppercase tracking-[0.18em] text-court-blue">Racket Finder</p>
             <h2 className="mt-2 text-3xl font-black text-white sm:text-4xl">Frames matched to your game</h2>
           </div>
           <select value={selectedStyle} onChange={(event) => setSelectedStyle(event.target.value)} className="focus-ring rounded-lg border border-white/15 bg-court-panel px-4 py-3 text-white">

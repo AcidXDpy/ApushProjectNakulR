@@ -9,7 +9,7 @@ export default function TrainingPlan({ selectedStyle, setSelectedStyle }) {
       <div className="mx-auto max-w-7xl">
         <div className="mb-8 flex flex-col justify-between gap-4 md:flex-row md:items-end">
           <div>
-            <p className="text-sm font-bold uppercase tracking-[0.18em] text-court-green">Training Plan</p>
+            <p className="text-sm font-bold uppercase tracking-[0.18em] text-court-blue">Training Plan</p>
             <h2 className="mt-2 text-3xl font-black text-white sm:text-4xl">Five drills for your style</h2>
           </div>
           <select value={selectedStyle} onChange={(event) => setSelectedStyle(event.target.value)} className="focus-ring rounded-lg border border-white/15 bg-court-panel px-4 py-3 text-white">
@@ -21,7 +21,7 @@ export default function TrainingPlan({ selectedStyle, setSelectedStyle }) {
             <Card key={drill.name} className="lg:col-span-1">
               <Dumbbell className="text-court-blue" />
               <h3 className="mt-4 text-lg font-black text-white">{drill.name}</h3>
-              <p className="mt-3 text-sm font-bold text-court-green">{drill.purpose}</p>
+              <p className="mt-3 text-sm font-bold text-court-lime">{drill.purpose}</p>
               <p className="mt-3 text-sm leading-6 text-slate-300">{drill.how}</p>
               <div className="mt-4 flex items-center gap-2 text-xs font-bold uppercase tracking-[0.14em] text-slate-400">
                 <Clock size={14} />

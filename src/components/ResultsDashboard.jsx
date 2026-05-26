@@ -11,7 +11,7 @@ function ListBlock({ title, items }) {
       <ul className="mt-4 space-y-3">
         {items.map((item) => (
           <li key={item} className="flex gap-3 text-sm leading-6 text-slate-300">
-            <CheckCircle2 className="mt-1 shrink-0 text-court-green" size={16} />
+            <CheckCircle2 className="mt-1 shrink-0 text-court-blue" size={16} />
             <span>{item}</span>
           </li>
         ))}
@@ -44,8 +44,8 @@ export default function ResultsDashboard({ result }) {
     <section id="results" className="section-pad">
       <div className="mx-auto max-w-7xl">
         <div className="mb-8 grid gap-4 lg:grid-cols-[1.2fr_0.8fr]">
-          <Card className="bg-gradient-to-br from-court-green/10 via-white/[0.04] to-court-blue/10">
-            <p className="text-sm font-bold uppercase tracking-[0.18em] text-court-green">Results Dashboard</p>
+          <Card className="bg-gradient-to-br from-court-blue/12 via-white/[0.04] to-court-lime/10">
+            <p className="text-sm font-bold uppercase tracking-[0.18em] text-court-blue">Results Dashboard</p>
             <h2 className="mt-3 text-4xl font-black text-white">{result.primary}</h2>
             <p className="mt-4 max-w-3xl text-lg leading-8 text-slate-300">{primary.identity}</p>
           </Card>
@@ -79,7 +79,7 @@ export default function ResultsDashboard({ result }) {
                 </div>
               </div>
               <div>
-                <p className="text-sm font-bold text-court-green">Strings / Tension</p>
+                <p className="text-sm font-bold text-court-lime">Strings / Tension</p>
                 <div className="mt-3 space-y-2">
                   {recommendedStrings.map((string) => (
                     <p key={string.type} className="rounded-lg bg-white/[0.04] px-3 py-2 text-sm text-slate-300">{string.type}: {string.tensionRange}</p>

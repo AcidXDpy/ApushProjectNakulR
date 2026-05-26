@@ -19,7 +19,7 @@ export default function StrategyAdvisor({ selectedStyle, setSelectedStyle }) {
         </div>
         <div className="grid gap-4 lg:grid-cols-[0.9fr_1.1fr]">
           <Card>
-            <Compass className="text-court-green" size={30} />
+            <Compass className="text-court-blue" size={30} />
             <h3 className="mt-4 text-2xl font-black">{selectedStyle}</h3>
             <p className="mt-3 leading-7 text-slate-300">{style.identity}</p>
           </Card>
