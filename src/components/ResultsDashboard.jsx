@@ -91,7 +91,7 @@ export default function ResultsDashboard({ result }) {
                 <p className="text-sm font-bold text-court-lime">Strings / Tension</p>
                 <div className="mt-3 space-y-2">
                   {recommendedStrings.map((string) => (
-                    <p key={string.type} className="rounded-lg bg-white/[0.04] px-3 py-2 text-sm text-slate-300">{string.type}: {string.tensionRange}</p>
+                    <p key={string.name} className="rounded-lg bg-white/[0.04] px-3 py-2 text-sm text-slate-300">{string.name}: {string.tensionRange}</p>
                   ))}
                 </div>
               </div>
