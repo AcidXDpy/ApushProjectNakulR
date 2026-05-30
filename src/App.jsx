@@ -1,4 +1,5 @@
 import { useMemo, useState } from 'react';
+import GearStory from './components/GearStory.jsx';
 import Hero from './components/Hero.jsx';
 import Navbar from './components/Navbar.jsx';
 import PlaystyleQuiz from './components/PlaystyleQuiz.jsx';
@@ -34,16 +35,17 @@ export default function App() {
   }
 
   return (
-    <div className="min-h-screen text-white">
+    <div className="min-h-screen text-court-ink">
       <Navbar />
       <main>
         <Hero onStartQuiz={startQuiz} />
+        <GearStory />
         <PlaystyleQuiz answers={answers} setAnswers={setAnswers} onComplete={completeQuiz} onReset={resetQuiz} />
         <ResultsDashboard result={result} />
         <RacketFinder selectedStyle={activeStyle} setSelectedStyle={setGlobalStyle} />
         <StringFinder selectedStyle={activeStyle} setSelectedStyle={setGlobalStyle} />
       </main>
-      <footer className="border-t border-white/10 px-4 py-8 text-center text-sm text-slate-500">
+      <footer className="border-t border-court-line bg-white px-4 py-8 text-center text-sm text-slate-500">
         CourtVision MVP - frontend-only gear guidance, local data, ready for Vercel.
       </footer>
     </div>

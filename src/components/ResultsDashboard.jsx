@@ -7,10 +7,10 @@ import Card from './Card.jsx';
 function ListBlock({ title, items }) {
   return (
     <Card>
-      <h3 className="text-lg font-black text-white">{title}</h3>
+      <h3 className="text-lg font-black text-court-ink">{title}</h3>
       <ul className="mt-4 space-y-3">
         {items.map((item) => (
-          <li key={item} className="flex gap-3 text-sm leading-6 text-slate-300">
+          <li key={item} className="flex gap-3 text-sm leading-6 text-slate-700">
             <CheckCircle2 className="mt-1 shrink-0 text-court-blue" size={16} />
             <span>{item}</span>
           </li>
@@ -38,7 +38,7 @@ export default function ResultsDashboard({ result }) {
           <Card className="text-center">
             <Target className="mx-auto text-court-blue" size={34} />
             <h2 className="mt-4 text-2xl font-black">Your gear profile will appear here</h2>
-            <p className="mt-2 text-slate-400">Complete the quiz to unlock racket, string, tension, and setup recommendations.</p>
+            <p className="mt-2 text-slate-600">Complete the quiz to unlock racket, string, tension, and setup recommendations.</p>
           </Card>
         </div>
       </section>
@@ -54,15 +54,15 @@ export default function ResultsDashboard({ result }) {
     <section id="results" className="section-pad">
       <div className="mx-auto max-w-7xl">
         <div className="mb-8 grid gap-4 lg:grid-cols-[1.2fr_0.8fr]">
-          <Card className="bg-gradient-to-br from-court-blue/12 via-white/[0.04] to-court-lime/10">
+          <Card className="bg-gradient-to-br from-white via-court-blue/5 to-court-lime/20">
             <p className="text-sm font-bold uppercase tracking-[0.18em] text-court-blue">Gear Profile</p>
-            <h2 className="mt-3 text-4xl font-black text-white">{result.primary}</h2>
-            <p className="mt-4 max-w-3xl text-lg leading-8 text-slate-300">{primary.identity}</p>
+            <h2 className="mt-3 text-4xl font-black text-court-ink">{result.primary}</h2>
+            <p className="mt-4 max-w-3xl text-lg leading-8 text-slate-700">{primary.identity}</p>
           </Card>
           <Card>
-            <p className="text-sm text-slate-400">Secondary style</p>
-            <h3 className="mt-2 text-2xl font-black text-white">{result.secondary}</h3>
-            <p className="mt-4 text-sm leading-6 text-slate-400">{secondary.identity}</p>
+            <p className="text-sm text-slate-500">Secondary style</p>
+            <h3 className="mt-2 text-2xl font-black text-court-ink">{result.secondary}</h3>
+            <p className="mt-4 text-sm leading-6 text-slate-600">{secondary.identity}</p>
           </Card>
         </div>
 
@@ -83,7 +83,7 @@ export default function ResultsDashboard({ result }) {
                 <p className="text-sm font-bold text-court-blue">Rackets</p>
                 <div className="mt-3 space-y-2">
                   {recommendedRackets.map((racket) => (
-                    <p key={racket.name} className="rounded-lg bg-white/[0.04] px-3 py-2 text-sm text-slate-300">{racket.name}</p>
+                    <p key={racket.name} className="rounded-lg bg-slate-50 px-3 py-2 text-sm text-slate-700">{racket.name}</p>
                   ))}
                 </div>
               </div>
@@ -91,7 +91,7 @@ export default function ResultsDashboard({ result }) {
                 <p className="text-sm font-bold text-court-lime">Strings / Tension</p>
                 <div className="mt-3 space-y-2">
                   {recommendedStrings.map((string) => (
-                    <p key={string.name} className="rounded-lg bg-white/[0.04] px-3 py-2 text-sm text-slate-300">{string.name}: {string.tensionRange}</p>
+                    <p key={string.name} className="rounded-lg bg-slate-50 px-3 py-2 text-sm text-slate-700">{string.name}: {string.tensionRange}</p>
                   ))}
                 </div>
               </div>

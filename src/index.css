@@ -3,9 +3,9 @@
 @tailwind utilities;
 
 :root {
-  color-scheme: dark;
-  background: #070a0f;
-  color: #f7f9fb;
+  color-scheme: light;
+  background: #f4f7f6;
+  color: #070b0e;
   font-family: Inter, ui-sans-serif, system-ui, sans-serif;
 }
 
@@ -22,9 +22,8 @@ body {
   min-width: 320px;
   min-height: 100vh;
   background:
-    radial-gradient(circle at 16% 0%, rgba(79, 140, 255, 0.16), transparent 34%),
-    radial-gradient(circle at 88% 10%, rgba(214, 178, 94, 0.10), transparent 30%),
-    linear-gradient(140deg, #070a0f 0%, #0b1018 48%, #10151f 100%);
+    radial-gradient(circle at 9% 0%, rgba(140, 255, 0, 0.16), transparent 24%),
+    linear-gradient(180deg, #f4f7f6 0%, #ffffff 42%, #eef3f2 100%);
 }
 
 button,
@@ -102,15 +101,15 @@ select {
 
 @layer components {
   .panel {
-    @apply rounded-lg border border-court-line bg-white/[0.045] shadow-card backdrop-blur;
+    @apply rounded-lg border border-court-line bg-white text-court-ink shadow-card;
   }
 
   .soft-panel {
-    @apply rounded-lg border border-white/10 bg-white/[0.035] backdrop-blur;
+    @apply rounded-lg border border-court-line bg-white shadow-card;
   }
 
   .accent-text {
-    @apply bg-gradient-to-r from-slate-100 via-court-green to-court-blue bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-court-ink via-court-blue to-court-green bg-clip-text text-transparent;
   }
 
   .section-pad {
@@ -128,7 +127,7 @@ select {
   }
 
   .motion-card:hover {
-    @apply border-court-blue/50 shadow-glow;
+    @apply border-court-blue/40 shadow-glow;
     transform: translateY(-5px) scale(1.01);
   }
 
@@ -190,7 +189,7 @@ select {
     height: 420px;
     border: 1px solid rgba(255, 255, 255, 0.1);
     border-radius: 8px;
-    opacity: 0.42;
+    opacity: 0.18;
     transform: rotate(-10deg);
     animation: court-drift 14s ease-in-out infinite reverse;
   }
@@ -201,8 +200,8 @@ select {
     position: absolute;
     inset: 0;
     background:
-      linear-gradient(90deg, transparent 49.7%, rgba(255, 255, 255, 0.18) 49.7% 50.3%, transparent 50.3%),
-      linear-gradient(0deg, transparent 28%, rgba(214, 178, 94, 0.15) 28% 28.5%, transparent 28.5% 71.5%, rgba(214, 178, 94, 0.15) 71.5% 72%, transparent 72%);
+      linear-gradient(90deg, transparent 49.7%, rgba(4, 126, 168, 0.16) 49.7% 50.3%, transparent 50.3%),
+      linear-gradient(0deg, transparent 28%, rgba(140, 255, 0, 0.14) 28% 28.5%, transparent 28.5% 71.5%, rgba(140, 255, 0, 0.14) 71.5% 72%, transparent 72%);
   }
 
   .court-lines::after {
@@ -221,6 +220,20 @@ select {
 
   .catalog-grid {
     transition: opacity 260ms ease, transform 260ms ease;
+  }
+
+  .editorial-card {
+    @apply relative min-h-[440px] overflow-hidden rounded-lg border border-black/10 bg-slate-200 shadow-card;
+  }
+
+  .editorial-card img {
+    transform: scale(1.02);
+    transition: transform 700ms ease, filter 700ms ease;
+  }
+
+  .editorial-card:hover img {
+    filter: saturate(1.08) contrast(1.05);
+    transform: scale(1.08);
   }
 }
 
