@@ -12,7 +12,7 @@ function Rating({ label, value }) {
         <span>{value}/10</span>
       </div>
       <div className="h-2 overflow-hidden rounded-full bg-white/10">
-        <div className="h-full rounded-full bg-gradient-to-r from-court-blue to-court-green" style={{ width: `${value * 10}%` }} />
+        <div className="rating-fill h-full rounded-full bg-gradient-to-r from-court-blue to-court-green" style={{ '--rating-width': `${value * 10}%` }} />
       </div>
     </div>
   );
@@ -23,16 +23,16 @@ export default function RacketFinder({ selectedStyle, setSelectedStyle }) {
   const filtered = showAll ? rackets : rackets.filter((racket) => racket.recommendedPlaystyles.includes(selectedStyle));
 
   return (
-    <section id="gear" className="section-pad">
+    <section id="gear" className="section-pad reveal-section">
       <div className="mx-auto max-w-7xl">
         <div className="mb-8 flex flex-col justify-between gap-4 md:flex-row md:items-end">
-          <div>
+          <div className="reveal-up">
             <p className="text-sm font-bold uppercase tracking-[0.18em] text-court-blue">Racket Finder</p>
             <h2 className="mt-2 text-3xl font-black text-white sm:text-4xl">Frames matched to your game</h2>
             <p className="mt-3 text-sm text-slate-400">{filtered.length} rackets shown</p>
           </div>
-          <div className="flex flex-col gap-3 sm:flex-row">
-            <label className="focus-within:ring-court-blue flex items-center gap-3 rounded-lg border border-white/15 bg-court-panel px-4 py-3 text-sm font-bold text-white focus-within:ring-2">
+          <div className="reveal-up flex flex-col gap-3 sm:flex-row [animation-delay:100ms]">
+            <label className="action-button focus-within:ring-court-blue flex items-center gap-3 rounded-lg border border-white/15 bg-court-panel px-4 py-3 text-sm font-bold text-white focus-within:ring-2">
               <input type="checkbox" checked={showAll} onChange={(event) => setShowAll(event.target.checked)} className="h-4 w-4 accent-court-blue" />
               Show all rackets
             </label>
@@ -41,9 +41,9 @@ export default function RacketFinder({ selectedStyle, setSelectedStyle }) {
             </select>
           </div>
         </div>
-        <div className="grid gap-4 lg:grid-cols-3">
-          {filtered.map((racket) => (
-            <Card key={racket.name}>
+        <div className="catalog-grid grid gap-4 lg:grid-cols-3">
+          {filtered.map((racket, index) => (
+            <Card key={racket.name} className="reveal-card" style={{ '--reveal-delay': `${Math.min(index, 12) * 45}ms` }}>
               <div className="flex items-start justify-between gap-3">
                 <div>
                   <h3 className="text-xl font-black text-white">{racket.name}</h3>

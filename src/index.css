@@ -32,6 +32,74 @@ select {
   font: inherit;
 }
 
+@keyframes reveal-up {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes reveal-card {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.985);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes fill-rating {
+  from {
+    width: 0;
+  }
+
+  to {
+    width: var(--rating-width);
+  }
+}
+
+@keyframes court-drift {
+  0%,
+  100% {
+    transform: translate3d(-1.5%, -1%, 0) rotate(-10deg);
+  }
+
+  50% {
+    transform: translate3d(1.5%, 1%, 0) rotate(-10deg);
+  }
+}
+
+@keyframes float-card {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-8px);
+  }
+}
+
+@keyframes stat-pop {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.94);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
 @layer components {
   .panel {
     @apply rounded-lg border border-court-line bg-white/[0.045] shadow-card backdrop-blur;
@@ -51,5 +119,127 @@ select {
 
   .focus-ring {
     @apply focus:outline-none focus:ring-2 focus:ring-court-blue focus:ring-offset-2 focus:ring-offset-court-ink;
+  }
+
+  .motion-card {
+    @apply transition duration-300 ease-out;
+    transform: translateY(0) scale(1);
+    will-change: transform, box-shadow, border-color;
+  }
+
+  .motion-card:hover {
+    @apply border-court-blue/50 shadow-glow;
+    transform: translateY(-5px) scale(1.01);
+  }
+
+  .motion-card:active {
+    transform: translateY(-2px) scale(0.995);
+  }
+
+  .action-button {
+    @apply transition duration-300 ease-out;
+    transform: translateY(0);
+  }
+
+  .action-button:hover {
+    transform: translateY(-2px);
+  }
+
+  .action-button:active {
+    transform: translateY(0) scale(0.98);
+  }
+
+  .reveal-up {
+    animation: reveal-up 700ms ease-out both;
+  }
+
+  .reveal-card {
+    animation: reveal-card 560ms ease-out both;
+    animation-delay: var(--reveal-delay, 0ms);
+  }
+
+  .rating-fill {
+    width: var(--rating-width);
+    animation: fill-rating 850ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .hero-parallax {
+    isolation: isolate;
+  }
+
+  .hero-parallax::before {
+    content: '';
+    position: absolute;
+    inset: -24% -8% auto auto;
+    z-index: -2;
+    width: min(52vw, 720px);
+    aspect-ratio: 1;
+    border: 1px solid rgba(125, 211, 252, 0.18);
+    border-radius: 999px;
+    background: radial-gradient(circle, rgba(79, 140, 255, 0.16), transparent 62%);
+    filter: blur(1px);
+    animation: court-drift 12s ease-in-out infinite;
+  }
+
+  .court-lines {
+    pointer-events: none;
+    position: absolute;
+    inset: 10% -12% auto auto;
+    z-index: -1;
+    width: min(64vw, 820px);
+    height: 420px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    opacity: 0.42;
+    transform: rotate(-10deg);
+    animation: court-drift 14s ease-in-out infinite reverse;
+  }
+
+  .court-lines::before,
+  .court-lines::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(90deg, transparent 49.7%, rgba(255, 255, 255, 0.18) 49.7% 50.3%, transparent 50.3%),
+      linear-gradient(0deg, transparent 28%, rgba(214, 178, 94, 0.15) 28% 28.5%, transparent 28.5% 71.5%, rgba(214, 178, 94, 0.15) 71.5% 72%, transparent 72%);
+  }
+
+  .court-lines::after {
+    inset: 18% 18%;
+    border: 1px solid rgba(125, 211, 252, 0.16);
+    background: none;
+  }
+
+  .floating-card {
+    animation: float-card 6s ease-in-out infinite;
+  }
+
+  .stat-pop {
+    animation: stat-pop 600ms ease-out both;
+  }
+
+  .catalog-grid {
+    transition: opacity 260ms ease, transform 260ms ease;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 1ms !important;
+  }
+
+  .motion-card,
+  .motion-card:hover,
+  .motion-card:active,
+  .action-button,
+  .action-button:hover,
+  .action-button:active {
+    transform: none;
   }
 }
