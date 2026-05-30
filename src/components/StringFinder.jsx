@@ -7,12 +7,12 @@ export default function StringFinder({ selectedStyle, setSelectedStyle }) {
   const filtered = strings.filter((string) => string.recommendedPlaystyles.includes(selectedStyle));
 
   return (
-    <section className="section-pad border-y border-white/10 bg-black/15">
+    <section id="strings" className="section-pad border-y border-white/10 bg-black/15">
       <div className="mx-auto max-w-7xl">
         <div className="mb-8 flex flex-col justify-between gap-4 md:flex-row md:items-end">
           <div>
             <p className="text-sm font-bold uppercase tracking-[0.18em] text-court-blue">String Finder</p>
-            <h2 className="mt-2 text-3xl font-black text-white sm:text-4xl">Feel, spin, and tension guidance</h2>
+            <h2 className="mt-2 text-3xl font-black text-white sm:text-4xl">Tune feel, launch, and comfort</h2>
           </div>
           <select value={selectedStyle} onChange={(event) => setSelectedStyle(event.target.value)} className="focus-ring rounded-lg border border-white/15 bg-court-panel px-4 py-3 text-white">
             {playstyleNames.map((name) => <option key={name}>{name}</option>)}

@@ -1,6 +1,6 @@
 # CourtVision
 
-CourtVision is a frontend-only React MVP for tennis players who want playstyle, strategy, racket, string, matchup, and training advice.
+CourtVision is a frontend-only React MVP for tennis players who want to understand how rackets, strings, tension, and specs can change their game.
 
 ## Tech
 

@@ -1,4 +1,4 @@
-import { ArrowRight, BarChart3, Gauge, Sparkles } from 'lucide-react';
+import { ArrowRight, Cable, Gauge, Sparkles } from 'lucide-react';
 import Card from './Card.jsx';
 
 export default function Hero({ onStartQuiz }) {
@@ -12,17 +12,17 @@ export default function Hero({ onStartQuiz }) {
           </p>
           <h1 className="max-w-4xl text-5xl font-black leading-tight text-white sm:text-6xl lg:text-7xl">
             CourtVision
-            <span className="block accent-text">for sharper tennis decisions.</span>
+            <span className="block accent-text">for smarter tennis gear.</span>
           </h1>
           <p className="mt-6 max-w-2xl text-lg leading-8 text-slate-300">
-            Discover your playstyle, get practical strategy, tune your racket and string setup, and train with drills that match how you actually win points.
+            Discover how your racket, strings, tension, and frame specs can change your power, spin, control, comfort, and confidence on court.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <button onClick={onStartQuiz} className="focus-ring action-button inline-flex items-center justify-center gap-2 rounded-lg bg-court-blue px-5 py-3 font-bold text-white hover:bg-court-green hover:text-court-ink">
               Take the quiz <ArrowRight size={18} />
             </button>
-            <a href="#matchup" className="focus-ring action-button inline-flex items-center justify-center rounded-lg border border-white/15 px-5 py-3 font-bold text-white hover:border-court-blue hover:bg-white/10">
-              Open matchup advisor
+            <a href="#gear" className="focus-ring action-button inline-flex items-center justify-center rounded-lg border border-white/15 px-5 py-3 font-bold text-white hover:border-court-blue hover:bg-white/10">
+              Browse gear
             </a>
           </div>
         </div>
@@ -52,13 +52,13 @@ export default function Hero({ onStartQuiz }) {
           <div className="grid gap-4 sm:grid-cols-2">
             <Card className="[animation-delay:220ms]">
               <Gauge className="mb-4 text-court-blue" />
-              <h3 className="font-bold">Gear logic</h3>
-              <p className="mt-2 text-sm leading-6 text-slate-400">Rackets and string setups are filtered by your primary and secondary style.</p>
+              <h3 className="font-bold">Frame effects</h3>
+              <p className="mt-2 text-sm leading-6 text-slate-400">Compare weight, stiffness, swingweight, and head size against how you want the ball to leave the strings.</p>
             </Card>
             <Card className="[animation-delay:300ms]">
-              <BarChart3 className="mb-4 text-court-lime" />
-              <h3 className="font-bold">Point patterns</h3>
-              <p className="mt-2 text-sm leading-6 text-slate-400">Advice focuses on what to serve, return, avoid, and practice next.</p>
+              <Cable className="mb-4 text-court-lime" />
+              <h3 className="font-bold">String tuning</h3>
+              <p className="mt-2 text-sm leading-6 text-slate-400">Pair racket recommendations with string type and tension ranges that shift feel, launch, spin, and comfort.</p>
             </Card>
           </div>
         </div>

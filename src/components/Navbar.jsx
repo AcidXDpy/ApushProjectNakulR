@@ -1,12 +1,10 @@
-import { Activity, Dumbbell, Home, Swords, Target, Trophy } from 'lucide-react';
+import { Cable, Home, Target, Trophy } from 'lucide-react';
 
 const links = [
   { label: 'Home', id: 'home', icon: Home },
   { label: 'Quiz', id: 'quiz', icon: Target },
-  { label: 'Strategy', id: 'strategy', icon: Activity },
   { label: 'Gear', id: 'gear', icon: Trophy },
-  { label: 'Training', id: 'training', icon: Dumbbell },
-  { label: 'Matchup', id: 'matchup', icon: Swords },
+  { label: 'Strings', id: 'strings', icon: Cable },
 ];
 
 export default function Navbar() {
@@ -17,7 +15,7 @@ export default function Navbar() {
           <span className="grid h-10 w-10 place-items-center rounded-lg bg-gradient-to-br from-court-blue to-slate-200 text-court-ink font-black">CV</span>
           <span>
             <span className="block text-lg font-black tracking-wide">CourtVision</span>
-            <span className="hidden text-xs text-slate-400 sm:block">Tennis improvement advisor</span>
+            <span className="hidden text-xs text-slate-400 sm:block">Tennis gear advisor</span>
           </span>
         </a>
         <div className="hidden items-center gap-1 lg:flex">

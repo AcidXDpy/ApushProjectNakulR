@@ -20,6 +20,16 @@ function ListBlock({ title, items }) {
   );
 }
 
+function GearImpactBlock({ result }) {
+  const impacts = [
+    `Your ${result.primary.toLowerCase()} profile should prioritize frames that support your natural shot shape without forcing extra effort.`,
+    `The secondary ${result.secondary.toLowerCase()} lean is useful for deciding whether to bias toward more control, comfort, spin, or free power.`,
+    'Use racket specs and string tension together: a powerful frame can be calmed down with control strings, while a control frame can be opened up with livelier strings.',
+  ];
+
+  return <ListBlock title="Gear Impact" items={impacts} />;
+}
+
 export default function ResultsDashboard({ result }) {
   if (!result) {
     return (
@@ -27,8 +37,8 @@ export default function ResultsDashboard({ result }) {
         <div className="mx-auto max-w-7xl">
           <Card className="text-center">
             <Target className="mx-auto text-court-blue" size={34} />
-            <h2 className="mt-4 text-2xl font-black">Your results dashboard will appear here</h2>
-            <p className="mt-2 text-slate-400">Complete the quiz to unlock your playstyle, strategy, gear, and training recommendations.</p>
+            <h2 className="mt-4 text-2xl font-black">Your gear profile will appear here</h2>
+            <p className="mt-2 text-slate-400">Complete the quiz to unlock racket, string, tension, and setup recommendations.</p>
           </Card>
         </div>
       </section>
@@ -45,7 +55,7 @@ export default function ResultsDashboard({ result }) {
       <div className="mx-auto max-w-7xl">
         <div className="mb-8 grid gap-4 lg:grid-cols-[1.2fr_0.8fr]">
           <Card className="bg-gradient-to-br from-court-blue/12 via-white/[0.04] to-court-lime/10">
-            <p className="text-sm font-bold uppercase tracking-[0.18em] text-court-blue">Results Dashboard</p>
+            <p className="text-sm font-bold uppercase tracking-[0.18em] text-court-blue">Gear Profile</p>
             <h2 className="mt-3 text-4xl font-black text-white">{result.primary}</h2>
             <p className="mt-4 max-w-3xl text-lg leading-8 text-slate-300">{primary.identity}</p>
           </Card>
@@ -58,16 +68,15 @@ export default function ResultsDashboard({ result }) {
 
         <div className="grid gap-4 lg:grid-cols-3">
           <ListBlock title="Strengths" items={primary.strengths} />
-          <ListBlock title="Weaknesses" items={primary.weaknesses} />
-          <ListBlock title="Tactical Priorities" items={primary.tacticalPriorities} />
+          <GearImpactBlock result={result} />
+          <ListBlock title="Setup Watchouts" items={primary.weaknesses} />
         </div>
 
-        <div className="mt-4 grid gap-4 lg:grid-cols-3">
-          <ListBlock title="Practice Focus" items={primary.practiceFocus} />
-          <Card className="lg:col-span-2">
+        <div className="mt-4 grid gap-4">
+          <Card>
             <div className="flex items-center gap-3">
               <Zap className="text-court-lime" />
-              <h3 className="text-lg font-black">Recommended Setup</h3>
+              <h3 className="text-lg font-black">Recommended Gear Setup</h3>
             </div>
             <div className="mt-4 grid gap-4 md:grid-cols-2">
               <div>
