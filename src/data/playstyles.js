@@ -137,19 +137,45 @@ export const quizQuestions = [
       { label: 'Return games and baseline exchanges', scores: { 'Big Server': 2, 'Serve-and-Volley Player': 1 } },
     ],
   },
+  {
+    id: 'budget',
+    question: 'What budget feels realistic for a full racket + string setup?',
+    options: [
+      { label: 'Keep it value-focused under $250', profile: { budgetTier: 'Value', maxSetupPrice: 250 } },
+      { label: 'Balanced setup around $250-$330', profile: { budgetTier: 'Balanced', maxSetupPrice: 330 } },
+      { label: 'Premium fit matters more than price', profile: { budgetTier: 'Premium', maxSetupPrice: 420 } },
+    ],
+  },
+  {
+    id: 'armHealth',
+    question: 'Any current arm issues we should protect?',
+    options: [
+      { label: 'No current elbow, shoulder, or wrist problems', profile: { armIssue: 'None', comfortPriority: 0 } },
+      { label: 'Some soreness after playing', profile: { armIssue: 'Mild soreness', comfortPriority: 1 } },
+      { label: 'Elbow, shoulder, or wrist pain affects how I play', profile: { armIssue: 'Active pain', comfortPriority: 2 } },
+    ],
+  },
 ];
 
 export function scoreQuiz(answers) {
   const totals = Object.fromEntries(playstyleNames.map((style) => [style, 0]));
+  const profile = {
+    budgetTier: 'Balanced',
+    maxSetupPrice: 330,
+    armIssue: 'None',
+    comfortPriority: 0,
+  };
 
   quizQuestions.forEach((question) => {
     const selectedIndex = answers[question.id];
     const selected = question.options[selectedIndex];
     if (!selected) return;
 
-    Object.entries(selected.scores).forEach(([style, points]) => {
+    Object.entries(selected.scores || {}).forEach(([style, points]) => {
       totals[style] += points;
     });
+
+    Object.assign(profile, selected.profile || {});
   });
 
   const ranked = Object.entries(totals).sort((a, b) => b[1] - a[1]);
@@ -157,5 +183,6 @@ export function scoreQuiz(answers) {
     totals,
     primary: ranked[0][0],
     secondary: ranked[1][0],
+    ...profile,
   };
 }

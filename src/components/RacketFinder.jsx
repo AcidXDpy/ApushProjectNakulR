@@ -43,7 +43,18 @@ export default function RacketFinder({ selectedStyle, setSelectedStyle }) {
         </div>
         <div className="catalog-grid grid gap-4 lg:grid-cols-3">
           {filtered.map((racket, index) => (
-            <Card key={racket.name} className="reveal-card" style={{ '--reveal-delay': `${Math.min(index, 12) * 45}ms` }}>
+            <Card key={racket.name} className="group reveal-card" style={{ '--reveal-delay': `${Math.min(index, 12) * 45}ms` }}>
+              <div className="mb-5 flex aspect-[5/3] items-center justify-center overflow-hidden rounded-lg border border-court-line bg-gradient-to-br from-white via-slate-50 to-court-fog p-4 shadow-inner">
+                <img
+                  src={racket.image}
+                  alt={racket.imageAlt}
+                  loading="lazy"
+                  className="h-full w-full object-contain transition duration-500 ease-out group-hover:scale-[1.04]"
+                  onError={(event) => {
+                    event.currentTarget.src = '/images/rackets/racket-placeholder.svg';
+                  }}
+                />
+              </div>
               <div className="flex items-start justify-between gap-3">
                 <div>
                   <h3 className="text-xl font-black text-court-ink">{racket.name}</h3>

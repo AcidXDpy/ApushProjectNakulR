@@ -39,6 +39,11 @@ export default function PlaystyleQuiz({ answers, setAnswers, onComplete, onReset
             <Card key={question.id}>
               <p className="text-xs font-bold uppercase tracking-[0.16em] text-court-blue">Question {index + 1}</p>
               <h3 className="mt-2 text-lg font-bold text-court-ink">{question.question}</h3>
+              {question.id === 'armHealth' && (
+                <p className="mt-2 text-sm leading-6 text-slate-500">
+                  This is gear guidance, not medical advice. Pain that changes your swing is worth checking with a qualified clinician or coach.
+                </p>
+              )}
               <div className="mt-4 grid gap-2">
                 {question.options.map((option, optionIndex) => {
                   const selected = answers[question.id] === optionIndex;

@@ -52,6 +52,10 @@ function toName(brandLine, model) {
   return `${brand} ${model}`;
 }
 
+function slugify(value) {
+  return value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+}
+
 function rateRacket({ archetype, stiffness, swingweight }) {
   const text = archetype.toLowerCase();
   const power = Math.min(10, Math.max(5, Math.round(5 + (stiffness - 58) / 3 + (text.includes('power') ? 2 : 0) + (text.includes('attacker') || text.includes('aggressive') ? 1 : 0))));
@@ -64,11 +68,15 @@ function rateRacket({ archetype, stiffness, swingweight }) {
 }
 
 function racket(brandLine, price, model, headSize, weight, stringPattern, stiffness, swingweight, archetype, bestFor) {
+  const name = toName(brandLine, model);
+
   return {
-    name: toName(brandLine, model),
+    name,
     brandLine,
     price,
     model,
+    image: `/images/rackets/${slugify(name)}.jpg`,
+    imageAlt: `${name} tennis racket`,
     headSize,
     weight,
     stringPattern,
