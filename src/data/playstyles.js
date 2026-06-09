@@ -157,6 +157,93 @@ export const quizQuestions = [
   },
 ];
 
+export const quizSliders = [
+  {
+    id: 'spinIntent',
+    label: 'Ball shape',
+    lowLabel: 'Flatter drive',
+    highLabel: 'Heavy topspin',
+    defaultValue: 6,
+    scores: { 'Heavy Topspin Player': 2.6, 'Defensive Grinder': 0.7, 'Aggressive Baseliner': -0.4 },
+  },
+  {
+    id: 'powerIntent',
+    label: 'Power preference',
+    lowLabel: 'I create pace',
+    highLabel: 'I want free power',
+    defaultValue: 5,
+    scores: { 'Big Server': 1.3, 'Aggressive Baseliner': 1.1, Counterpuncher: -0.5 },
+  },
+  {
+    id: 'controlIntent',
+    label: 'Control need',
+    lowLabel: 'Easy depth',
+    highLabel: 'Precise targeting',
+    defaultValue: 6,
+    scores: { Counterpuncher: 1.4, 'All-Court Player': 1.1, 'Defensive Grinder': 0.9, 'Big Server': -0.4 },
+  },
+  {
+    id: 'rallyTolerance',
+    label: 'Point length',
+    lowLabel: 'End points early',
+    highLabel: 'Live in long rallies',
+    defaultValue: 5,
+    scores: { 'Defensive Grinder': 1.6, Counterpuncher: 1.3, 'Big Server': -1.1, 'Serve-and-Volley Player': -0.8 },
+  },
+  {
+    id: 'netIntent',
+    label: 'Forward pressure',
+    lowLabel: 'Baseline first',
+    highLabel: 'Finish forward',
+    defaultValue: 4,
+    scores: { 'Serve-and-Volley Player': 2.2, 'All-Court Player': 1.4, 'Defensive Grinder': -0.8 },
+  },
+  {
+    id: 'riskTolerance',
+    label: 'Shot selection',
+    lowLabel: 'High percentage',
+    highLabel: 'Take aggressive cuts',
+    defaultValue: 5,
+    scores: { 'Aggressive Baseliner': 1.8, 'Big Server': 1.0, 'Defensive Grinder': -1.3, Counterpuncher: -0.7 },
+  },
+  {
+    id: 'serveReliance',
+    label: 'Serve value',
+    lowLabel: 'Starts rallies',
+    highLabel: 'Creates points',
+    defaultValue: 5,
+    scores: { 'Big Server': 2.3, 'Serve-and-Volley Player': 1.2, 'Defensive Grinder': -0.7 },
+  },
+  {
+    id: 'comfortNeed',
+    label: 'Comfort priority',
+    lowLabel: 'Firm feel is okay',
+    highLabel: 'Protect my arm',
+    defaultValue: 4,
+    scores: { 'Defensive Grinder': 0.5, Counterpuncher: 0.4 },
+  },
+  {
+    id: 'maneuverabilityNeed',
+    label: 'Swing feel',
+    lowLabel: 'Stable/plow-through',
+    highLabel: 'Fast/easy swing',
+    defaultValue: 6,
+    scores: { 'All-Court Player': 0.9, 'Serve-and-Volley Player': 0.8, 'Heavy Topspin Player': 0.4 },
+  },
+  {
+    id: 'durabilityNeed',
+    label: 'String durability',
+    lowLabel: 'Feel first',
+    highLabel: 'I break strings',
+    defaultValue: 5,
+    scores: { 'Heavy Topspin Player': 0.9, 'Aggressive Baseliner': 0.5 },
+  },
+];
+
+function defaultTraits() {
+  return Object.fromEntries(quizSliders.map((slider) => [slider.id, slider.defaultValue * 10]));
+}
+
 export function scoreQuiz(answers) {
   const totals = Object.fromEntries(playstyleNames.map((style) => [style, 0]));
   const profile = {
@@ -164,6 +251,7 @@ export function scoreQuiz(answers) {
     maxSetupPrice: 330,
     armIssue: 'None',
     comfortPriority: 0,
+    traits: defaultTraits(),
   };
 
   quizQuestions.forEach((question) => {
@@ -177,6 +265,27 @@ export function scoreQuiz(answers) {
 
     Object.assign(profile, selected.profile || {});
   });
+
+  quizSliders.forEach((slider) => {
+    const rawValue = Number(answers[slider.id] ?? slider.defaultValue);
+    const rating = Math.min(10, Math.max(1, rawValue));
+    const value = rating * 10;
+    const centered = (value - 50) / 50;
+
+    profile.traits[slider.id] = value;
+
+    Object.entries(slider.scores || {}).forEach(([style, weight]) => {
+      totals[style] += centered * weight;
+    });
+  });
+
+  if (profile.traits.comfortNeed >= 78) {
+    profile.comfortPriority = Math.max(profile.comfortPriority, 2);
+    profile.armIssue = profile.armIssue === 'None' ? 'Comfort priority' : profile.armIssue;
+  } else if (profile.traits.comfortNeed >= 55) {
+    profile.comfortPriority = Math.max(profile.comfortPriority, 1);
+    profile.armIssue = profile.armIssue === 'None' ? 'Comfort preference' : profile.armIssue;
+  }
 
   const ranked = Object.entries(totals).sort((a, b) => b[1] - a[1]);
   return {

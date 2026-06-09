@@ -1,18 +1,29 @@
 import { RotateCcw, Trophy } from 'lucide-react';
-import { quizQuestions, scoreQuiz } from '../data/playstyles.js';
+import { quizQuestions, quizSliders, scoreQuiz } from '../data/playstyles.js';
 import Card from './Card.jsx';
 
 export default function PlaystyleQuiz({ answers, setAnswers, onComplete, onReset }) {
-  const answeredCount = Object.keys(answers).length;
-  const complete = answeredCount === quizQuestions.length;
+  const answeredChoiceCount = quizQuestions.filter((question) => Number.isInteger(answers[question.id])).length;
+  const answeredCount = answeredChoiceCount + quizSliders.length;
+  const totalInputs = quizQuestions.length + quizSliders.length;
+  const complete = answeredChoiceCount === quizQuestions.length;
 
   function choose(questionId, optionIndex) {
     setAnswers((current) => ({ ...current, [questionId]: optionIndex }));
   }
 
+  function chooseSlider(sliderId, value) {
+    setAnswers((current) => ({ ...current, [sliderId]: Number(value) }));
+  }
+
+  function sliderValue(slider) {
+    return Number(answers[slider.id] ?? slider.defaultValue);
+  }
+
   function finishQuiz() {
     if (!complete) return;
-    onComplete(scoreQuiz(answers));
+    const sliderDefaults = Object.fromEntries(quizSliders.map((slider) => [slider.id, slider.defaultValue]));
+    onComplete(scoreQuiz({ ...sliderDefaults, ...answers }));
   }
 
   return (
@@ -21,15 +32,18 @@ export default function PlaystyleQuiz({ answers, setAnswers, onComplete, onReset
         <div className="mb-8 flex flex-col justify-between gap-4 lg:flex-row lg:items-end">
           <div>
             <p className="text-sm font-bold uppercase tracking-[0.18em] text-court-blue">Playstyle Quiz</p>
-            <h2 className="mt-2 text-3xl font-black text-court-ink sm:text-4xl">Classify your tennis identity</h2>
+            <h2 className="mt-2 text-3xl font-black text-court-ink sm:text-4xl">Build your player profile</h2>
+            <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-600">
+              Choose the closest patterns, then tune the sliders. There is no right answer here; the goal is to model how you actually want the gear to respond.
+            </p>
           </div>
           <div className="soft-panel min-w-56 p-4">
             <div className="flex items-center justify-between text-sm">
               <span className="text-slate-500">Progress</span>
-              <span className="font-bold">{answeredCount}/{quizQuestions.length}</span>
+              <span className="font-bold">{answeredCount}/{totalInputs}</span>
             </div>
             <div className="mt-3 h-2 overflow-hidden rounded-full bg-slate-200">
-              <div className="h-full rounded-full bg-gradient-to-r from-court-blue to-court-green transition-all" style={{ width: `${(answeredCount / quizQuestions.length) * 100}%` }} />
+              <div className="h-full rounded-full bg-gradient-to-r from-court-blue to-court-green transition-all" style={{ width: `${(answeredCount / totalInputs) * 100}%` }} />
             </div>
           </div>
         </div>
@@ -62,6 +76,49 @@ export default function PlaystyleQuiz({ answers, setAnswers, onComplete, onReset
               </div>
             </Card>
           ))}
+        </div>
+
+        <div className="mt-8">
+          <div className="mb-4 flex flex-col justify-between gap-2 md:flex-row md:items-end">
+            <div>
+              <p className="text-sm font-bold uppercase tracking-[0.18em] text-court-blue">Calibration Sliders</p>
+              <h3 className="mt-2 text-2xl font-black text-court-ink">Tune the gray areas</h3>
+            </div>
+            <p className="max-w-xl text-sm leading-6 text-slate-600">
+              These scales personalize the recommendations beyond a single playstyle category.
+            </p>
+          </div>
+          <div className="grid gap-4 lg:grid-cols-2">
+            {quizSliders.map((slider) => {
+              const value = sliderValue(slider);
+
+              return (
+                <Card key={slider.id}>
+                  <div className="flex items-start justify-between gap-4">
+                    <div>
+                      <p className="text-xs font-bold uppercase tracking-[0.16em] text-court-blue">Scale</p>
+                      <h4 className="mt-2 text-lg font-black text-court-ink">{slider.label}</h4>
+                    </div>
+                    <span className="rounded-lg bg-court-lime/20 px-3 py-1 text-sm font-black text-court-ink">{value}/10</span>
+                  </div>
+                  <input
+                    aria-label={slider.label}
+                    type="range"
+                    min="1"
+                    max="10"
+                    step="1"
+                    value={value}
+                    onChange={(event) => chooseSlider(slider.id, event.target.value)}
+                    className="mt-5 w-full accent-court-blue"
+                  />
+                  <div className="mt-2 flex justify-between gap-4 text-xs font-bold text-slate-500">
+                    <span>{slider.lowLabel}</span>
+                    <span className="text-right">{slider.highLabel}</span>
+                  </div>
+                </Card>
+              );
+            })}
+          </div>
         </div>
 
         <div className="mt-8 flex flex-col gap-3 sm:flex-row">

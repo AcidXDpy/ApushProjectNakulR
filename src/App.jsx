@@ -12,7 +12,13 @@ const routes = new Set(['home', 'quiz', 'gear', 'strings', 'results']);
 
 function readRoute() {
   const hash = window.location.hash.replace('#', '');
-  return routes.has(hash) ? hash : 'home';
+  if (routes.has(hash)) return hash;
+
+  if (hash) {
+    window.history.replaceState(null, '', `${window.location.pathname}${window.location.search}#home`);
+  }
+
+  return 'home';
 }
 
 export default function App() {
@@ -78,11 +84,11 @@ export default function App() {
             <ResultsDashboard result={result} />
           </>
         )}
-        {activePage === 'gear' && <RacketFinder selectedStyle={activeStyle} setSelectedStyle={setGlobalStyle} />}
-        {activePage === 'strings' && <StringFinder selectedStyle={activeStyle} setSelectedStyle={setGlobalStyle} />}
+        {activePage === 'gear' && <RacketFinder selectedStyle={activeStyle} setSelectedStyle={setGlobalStyle} result={result} />}
+        {activePage === 'strings' && <StringFinder selectedStyle={activeStyle} setSelectedStyle={setGlobalStyle} result={result} />}
       </main>
       <footer className="border-t border-court-line bg-white px-4 py-8 text-center text-sm text-slate-500">
-        CourtVision MVP - frontend-only gear guidance, local data, ready for Vercel.
+        CourtVision MVP - explainable gear recommendations, local feedback data, ready for Vercel.
       </footer>
     </div>
   );

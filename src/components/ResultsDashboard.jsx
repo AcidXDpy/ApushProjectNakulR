@@ -1,142 +1,33 @@
-import { CheckCircle2, ShieldCheck, Target, Wallet, Zap } from 'lucide-react';
+import { CheckCircle2, Download, ShieldCheck, Target, Wallet, Zap } from 'lucide-react';
+import { useEffect, useState } from 'react';
 import { playstyles } from '../data/playstyles.js';
-import { rackets } from '../data/rackets.js';
-import { strings } from '../data/strings.js';
+import { buildSetupOptions, loadFeedback, money, saveFeedback, STRINGING_LABOR_ESTIMATE } from '../data/recommendationModel.js';
 import Card from './Card.jsx';
 
-const STRINGING_LABOR_ESTIMATE = 25;
+const scoreLabels = {
+  playstyleFit: 'Style',
+  traitFit: 'Trait fit',
+  performanceFit: 'Performance',
+  comfortFit: 'Comfort',
+  budgetFit: 'Budget',
+  safetyFit: 'Safety',
+};
 
-function priceNumber(price) {
-  return Number(String(price).replace(/[^0-9.]/g, '')) || 0;
+function confidenceLabel(score) {
+  if (score >= 86) return 'Strong match';
+  if (score >= 76) return 'Balanced match';
+  return 'Experimental fit';
 }
 
-function money(value) {
-  return `$${Math.round(value)}`;
-}
+function bestUseLabel(option, setupOptions) {
+  const topComfort = Math.max(...setupOptions.map((item) => item.components.comfortFit));
+  const topBudget = Math.max(...setupOptions.map((item) => item.components.budgetFit));
+  const topPerformance = Math.max(...setupOptions.map((item) => item.components.performanceFit));
 
-function setupTotal(racket, string) {
-  return priceNumber(racket.price) + priceNumber(string.price) + STRINGING_LABOR_ESTIMATE;
-}
-
-function isComfortString(string) {
-  return ['Hybrid', 'Multifilament', 'Natural Gut', 'Synthetic Gut'].includes(string.stringType) || string.comfort >= 8;
-}
-
-function isArmSafeRacket(racket, result) {
-  if (result.comfortPriority < 2) {
-    return racket.comfort >= 8 && racket.stiffness <= 66;
-  }
-
-  const text = `${racket.name} ${racket.archetype}`.toLowerCase();
-  const isSpinPowerOrMassFirst = text.includes('pure power') || text.includes('power baseliner') || text.includes('heavy spin') || text.includes('maximum spin') || text.includes('precision spin') || text.includes('heavy aggressive') || text.includes('heavy attacker');
-
-  return racket.comfort >= 8 && racket.stiffness <= 64 && racket.swingweight <= 326 && !isSpinPowerOrMassFirst;
-}
-
-function isArmSafeString(string, result) {
-  if (result.comfortPriority < 2) {
-    return string.stringType !== 'Kevlar / Aramid' && isComfortString(string);
-  }
-
-  return ['Hybrid', 'Multifilament', 'Natural Gut', 'Synthetic Gut'].includes(string.stringType) && string.comfort >= 7;
-}
-
-function scoreRacketForResult(racket, result) {
-  let score = 0;
-
-  if (racket.recommendedPlaystyles.includes(result.primary)) score += 18;
-  if (racket.recommendedPlaystyles.includes(result.secondary)) score += 10;
-
-  score += racket.control + racket.spin + racket.power + racket.comfort;
-
-  if (result.comfortPriority > 0) {
-    score += racket.comfort * (result.comfortPriority + 4);
-    if (isArmSafeRacket(racket, result)) score += 28 * result.comfortPriority;
-    if (racket.stiffness >= 65) score -= 14 * result.comfortPriority;
-    if (racket.stiffness >= 68) score -= 18 * result.comfortPriority;
-    if (racket.swingweight >= 326) score -= 8 * result.comfortPriority;
-  }
-
-  return score;
-}
-
-function scoreStringForResult(string, result) {
-  let score = 0;
-
-  if (string.recommendedPlaystyles.includes(result.primary)) score += 16;
-  if (string.recommendedPlaystyles.includes(result.secondary)) score += 8;
-
-  score += string.control + string.spin + string.power + string.comfort;
-
-  if (result.comfortPriority > 0) {
-    score += string.comfort * (result.comfortPriority + 2);
-    if (string.stringType === 'Polyester') score -= 10 * result.comfortPriority;
-    if (string.stringType === 'Polyester' && ['High', 'Very High', 'Med-High'].includes(string.stiffness)) score -= 14 * result.comfortPriority;
-    if (string.stringType === 'Kevlar / Aramid') score -= 30 * result.comfortPriority;
-    if (isArmSafeString(string, result)) score += 18 * result.comfortPriority;
-  }
-
-  return score;
-}
-
-function pickOne(items, usedNames, predicate = () => true) {
-  return items.find((item) => !usedNames.has(item.name) && predicate(item));
-}
-
-function buildSetupOptions(result) {
-  const rankedRackets = rackets
-    .map((racket) => ({ ...racket, matchScore: scoreRacketForResult(racket, result) }))
-    .sort((a, b) => b.matchScore - a.matchScore);
-
-  const rankedStrings = strings
-    .map((string) => ({ ...string, matchScore: scoreStringForResult(string, result) }))
-    .sort((a, b) => b.matchScore - a.matchScore);
-
-  const usedRackets = new Set();
-  const usedStrings = new Set();
-  const options = [];
-
-  const addOption = (label, intent, racketPredicate, stringPredicate) => {
-    const racket = pickOne(rankedRackets, usedRackets, racketPredicate) || pickOne(rankedRackets, usedRackets, (item) => result.comfortPriority < 2 || isArmSafeRacket(item, result)) || pickOne(rankedRackets, usedRackets);
-    const string = pickOne(rankedStrings, usedStrings, stringPredicate) || pickOne(rankedStrings, usedStrings, (item) => result.comfortPriority < 2 || isArmSafeString(item, result)) || pickOne(rankedStrings, usedStrings);
-    if (!racket || !string) return;
-
-    usedRackets.add(racket.name);
-    usedStrings.add(string.name);
-
-    const total = setupTotal(racket, string);
-    options.push({
-      label,
-      intent,
-      racket,
-      string,
-      total,
-      inBudget: total <= result.maxSetupPrice,
-    });
-  };
-
-  addOption(
-    result.comfortPriority > 0 ? 'Arm-friendly build' : 'Best match build',
-    result.comfortPriority > 0 ? 'Prioritizes softer impact, lower shock, and a safer string bed.' : 'Prioritizes your strongest playstyle fit with a balanced string bed.',
-    (racket) => result.comfortPriority === 0 || isArmSafeRacket(racket, result),
-    (string) => result.comfortPriority === 0 || isArmSafeString(string, result),
-  );
-
-  addOption(
-    'Value build',
-    'Keeps the full setup cost down while staying useful for your profile.',
-    (racket) => setupTotal(racket, { price: '$15.00' }) <= result.maxSetupPrice && (result.comfortPriority < 2 || isArmSafeRacket(racket, result)),
-    (string) => priceNumber(string.price) <= 15 && (result.comfortPriority === 0 || isArmSafeString(string, result)),
-  );
-
-  addOption(
-    result.comfortPriority >= 2 ? 'Protected performance build' : 'Performance build',
-    result.comfortPriority >= 2 ? 'Keeps performance upside, but still avoids harsh frames and full firm poly.' : 'Leans into higher ceiling gear if you want more response and room to grow.',
-    (racket) => racket.difficulty !== 'Low-Medium' && (result.comfortPriority < 2 || isArmSafeRacket(racket, result)),
-    (string) => result.comfortPriority > 0 ? string.stringType === 'Hybrid' : string.control >= 7 && string.spin >= 7,
-  );
-
-  return options;
+  if (option.components.comfortFit === topComfort) return 'Best comfort';
+  if (option.components.budgetFit === topBudget) return 'Best value';
+  if (option.components.performanceFit === topPerformance) return 'Best upside';
+  return 'Balanced option';
 }
 
 function ListBlock({ title, items }) {
@@ -152,6 +43,102 @@ function ListBlock({ title, items }) {
         ))}
       </ul>
     </Card>
+  );
+}
+
+function ScoreBreakdown({ components }) {
+  return (
+    <div className="mt-4 space-y-2">
+      {Object.entries(components).map(([key, value]) => (
+        <div key={key}>
+          <div className="mb-1 flex justify-between text-xs text-slate-500">
+            <span>{scoreLabels[key]}</span>
+            <span>{value}/100</span>
+          </div>
+          <div className="h-2 overflow-hidden rounded-full bg-slate-200">
+            <div className="h-full rounded-full bg-gradient-to-r from-court-blue to-court-green" style={{ width: `${value}%` }} />
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+function FeedbackPanel({ option, result }) {
+  const [feedback, setFeedback] = useState([]);
+  const setupId = `${option.racket.name}|${option.string.name}|${result.primary}`;
+  const current = feedback.find((item) => item.setupId === setupId);
+
+  useEffect(() => {
+    setFeedback(loadFeedback());
+  }, []);
+
+  function recordFeedback(field, value) {
+    const nextEntry = {
+      setupId,
+      setupLabel: option.label,
+      racket: option.racket.name,
+      string: option.string.name,
+      primary: result.primary,
+      secondary: result.secondary,
+      budgetTier: result.budgetTier,
+      armIssue: result.armIssue,
+      finalScore: option.finalScore,
+      total: option.total,
+      createdAt: new Date().toISOString(),
+      ...(current || {}),
+      [field]: value,
+    };
+    const next = [...feedback.filter((item) => item.setupId !== setupId), nextEntry];
+    setFeedback(next);
+    saveFeedback(next);
+    window.dispatchEvent(new Event('courtvision-feedback'));
+  }
+
+  return (
+    <div className="mt-4 rounded-lg border border-court-line bg-white p-3">
+      <p className="text-xs font-bold uppercase tracking-[0.14em] text-court-blue">Improve future fits</p>
+      <div className="mt-3 grid gap-2 sm:grid-cols-2">
+        <button onClick={() => recordFeedback('wouldTry', 'yes')} className={`focus-ring rounded-lg px-3 py-2 text-xs font-bold ${current?.wouldTry === 'yes' ? 'bg-court-green text-court-ink' : 'bg-slate-50 text-slate-600'}`}>
+          Would try
+        </button>
+        <button onClick={() => recordFeedback('accurate', 'yes')} className={`focus-ring rounded-lg px-3 py-2 text-xs font-bold ${current?.accurate === 'yes' ? 'bg-court-green text-court-ink' : 'bg-slate-50 text-slate-600'}`}>
+          Feels accurate
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function FeedbackExport() {
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    function refreshCount() {
+      setCount(loadFeedback().length);
+    }
+
+    refreshCount();
+    window.addEventListener('courtvision-feedback', refreshCount);
+    return () => window.removeEventListener('courtvision-feedback', refreshCount);
+  }, []);
+
+  function exportFeedback() {
+    const data = JSON.stringify(loadFeedback(), null, 2);
+    const blob = new Blob([data], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'courtvision-feedback.json';
+    link.click();
+    URL.revokeObjectURL(url);
+  }
+
+  return (
+    <button onClick={exportFeedback} className="focus-ring inline-flex items-center justify-center gap-2 rounded-lg border border-court-ink/15 px-4 py-2 text-sm font-bold text-court-ink transition hover:border-court-blue hover:bg-court-blue/10">
+      <Download size={16} />
+      Export fit feedback ({count})
+    </button>
   );
 }
 
@@ -230,12 +217,15 @@ export default function ResultsDashboard({ result }) {
 
         <div className="mt-4 grid gap-4">
           <Card>
-            <div className="flex items-center gap-3">
-              <Zap className="text-court-lime" />
-              <h3 className="text-lg font-black">Recommended Setup Options</h3>
+            <div className="flex flex-col justify-between gap-3 md:flex-row md:items-center">
+              <div className="flex items-center gap-3">
+                <Zap className="text-court-lime" />
+                <h3 className="text-lg font-black">Recommended Setup Options</h3>
+              </div>
+              <FeedbackExport />
             </div>
             <p className="mt-2 text-sm leading-6 text-slate-600">
-              Estimated totals include one racket, one string set, and about {money(STRINGING_LABOR_ESTIMATE)} for stringing labor.
+              Each setup is ranked by a weighted fit model using your style, slider traits, comfort needs, and setup budget. Estimated totals include one racket, one string set, and about {money(STRINGING_LABOR_ESTIMATE)} for stringing labor.
             </p>
             <div className="mt-5 grid gap-4 lg:grid-cols-3">
               {setupOptions.map((option) => (
@@ -244,12 +234,14 @@ export default function ResultsDashboard({ result }) {
                     <div>
                       <p className="text-xs font-bold uppercase tracking-[0.16em] text-court-blue">{option.label}</p>
                       <h4 className="mt-2 text-2xl font-black text-court-ink">{money(option.total)}</h4>
+                      <p className="mt-1 text-xs font-bold text-slate-500">{confidenceLabel(option.finalScore)} - fit score {option.finalScore}/100</p>
                     </div>
                     <span className={`rounded-lg px-2 py-1 text-xs font-bold ${option.inBudget ? 'bg-court-lime/20 text-court-ink' : 'bg-white text-slate-500'}`}>
-                      {option.inBudget ? 'In budget' : 'Stretch'}
+                      {bestUseLabel(option, setupOptions)}
                     </span>
                   </div>
                   <p className="mt-3 text-sm leading-6 text-slate-600">{option.intent}</p>
+                  <ScoreBreakdown components={option.components} />
 
                   <div className="mt-4 overflow-hidden rounded-lg bg-white">
                     <img src={option.racket.image} alt={option.racket.imageAlt} className="h-32 w-full object-contain p-3" />
@@ -269,7 +261,11 @@ export default function ResultsDashboard({ result }) {
                     <div className="rounded-lg border border-court-line bg-white p-3 text-xs leading-5 text-slate-600">
                       Racket {option.racket.price} + string {option.string.price} + labor {money(STRINGING_LABOR_ESTIMATE)}
                     </div>
+                    <div className="rounded-lg border border-court-line bg-white p-3 text-xs leading-5 text-slate-600">
+                      <span className="font-bold text-court-ink">Why this fits:</span> {option.explanation.join(' | ')}
+                    </div>
                   </div>
+                  <FeedbackPanel option={option} result={result} />
                 </div>
               ))}
             </div>

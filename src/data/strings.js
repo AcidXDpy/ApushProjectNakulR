@@ -1150,6 +1150,10 @@ function unique(styles) {
   return [...new Set(styles)];
 }
 
+function slugify(value) {
+  return value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+}
+
 function inferPlaystyles(row) {
   const text = `${row.stringType} ${row.archetype} ${row.bestFor}`.toLowerCase();
   const styles = [];
@@ -1223,6 +1227,8 @@ function getReason(row) {
 export const strings = stringRows.map((row) => ({
   ...row,
   name: `${row.brand} ${row.model}`,
+  image: `/images/strings/${slugify(`${row.brand} ${row.model}`)}.jpg`,
+  imageAlt: `${row.brand} ${row.model} tennis string package`,
   type: row.stringType,
   recommendedPlaystyles: inferPlaystyles(row),
   warnings: getWarning(row),

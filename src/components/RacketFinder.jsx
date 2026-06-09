@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { SlidersHorizontal } from 'lucide-react';
 import { rackets } from '../data/rackets.js';
 import { playstyleNames } from '../data/playstyles.js';
+import { scoreSetup } from '../data/recommendationModel.js';
 import Card from './Card.jsx';
 
 function Rating({ label, value }) {
@@ -18,9 +19,35 @@ function Rating({ label, value }) {
   );
 }
 
-export default function RacketFinder({ selectedStyle, setSelectedStyle }) {
+const referenceString = {
+  price: '$18.00',
+  power: 7,
+  control: 7,
+  spin: 7,
+  comfort: 7,
+  durability: 7,
+  recommendedPlaystyles: ['All-Court Player'],
+  stringType: 'Hybrid',
+  name: 'Reference hybrid',
+};
+
+function fitScore(racket, result) {
+  if (!result) return null;
+  return scoreSetup(racket, { ...referenceString, recommendedPlaystyles: [result.primary, result.secondary] }, result).finalScore;
+}
+
+export default function RacketFinder({ selectedStyle, setSelectedStyle, result }) {
   const [showAll, setShowAll] = useState(false);
-  const filtered = showAll ? rackets : rackets.filter((racket) => racket.recommendedPlaystyles.includes(selectedStyle));
+  const [sortMode, setSortMode] = useState('fit');
+  const baseRackets = showAll ? rackets : rackets.filter((racket) => racket.recommendedPlaystyles.includes(selectedStyle));
+  const filtered = [...baseRackets].sort((a, b) => {
+    if (sortMode === 'comfort') return b.comfort - a.comfort;
+    if (sortMode === 'spin') return b.spin - a.spin;
+    if (sortMode === 'control') return b.control - a.control;
+    if (sortMode === 'value') return Number(a.price.replace(/[^0-9.]/g, '')) - Number(b.price.replace(/[^0-9.]/g, ''));
+    if (result) return fitScore(b, result) - fitScore(a, result);
+    return 0;
+  });
 
   return (
     <section id="gear" className="section-pad reveal-section">
@@ -39,10 +66,20 @@ export default function RacketFinder({ selectedStyle, setSelectedStyle }) {
             <select value={selectedStyle} onChange={(event) => setSelectedStyle(event.target.value)} className="focus-ring rounded-lg border border-court-line bg-white px-4 py-3 text-court-ink shadow-card" disabled={showAll}>
               {playstyleNames.map((name) => <option key={name}>{name}</option>)}
             </select>
+            <select value={sortMode} onChange={(event) => setSortMode(event.target.value)} className="focus-ring rounded-lg border border-court-line bg-white px-4 py-3 text-court-ink shadow-card">
+              <option value="fit">Sort by profile fit</option>
+              <option value="comfort">Sort by comfort</option>
+              <option value="spin">Sort by spin</option>
+              <option value="control">Sort by control</option>
+              <option value="value">Sort by value</option>
+            </select>
           </div>
         </div>
         <div className="catalog-grid grid gap-4 lg:grid-cols-3">
-          {filtered.map((racket, index) => (
+          {filtered.map((racket, index) => {
+            const profileFit = fitScore(racket, result);
+
+            return (
             <Card key={racket.name} className="group reveal-card" style={{ '--reveal-delay': `${Math.min(index, 12) * 45}ms` }}>
               <div className="mb-5 flex aspect-[5/3] items-center justify-center overflow-hidden rounded-lg border border-court-line bg-gradient-to-br from-white via-slate-50 to-court-fog p-4 shadow-inner">
                 <img
@@ -60,7 +97,11 @@ export default function RacketFinder({ selectedStyle, setSelectedStyle }) {
                   <h3 className="text-xl font-black text-court-ink">{racket.name}</h3>
                   <p className="mt-2 text-sm leading-6 text-slate-600">{racket.bestFor}</p>
                 </div>
-                <SlidersHorizontal className="shrink-0 text-court-blue" />
+                {profileFit !== null ? (
+                  <span className="shrink-0 rounded-lg bg-court-lime/20 px-2 py-1 text-xs font-black text-court-ink">{profileFit}/100 fit</span>
+                ) : (
+                  <SlidersHorizontal className="shrink-0 text-court-blue" />
+                )}
               </div>
               <div className="mt-4 grid grid-cols-2 gap-2 text-xs text-slate-700">
                 <p className="rounded-lg bg-slate-50 px-3 py-2"><span className="text-slate-500">Price</span><br />{racket.price}</p>
@@ -80,7 +121,8 @@ export default function RacketFinder({ selectedStyle, setSelectedStyle }) {
               <p className="mt-4 text-xs font-bold uppercase tracking-[0.14em] text-court-lime">Difficulty: {racket.difficulty}</p>
               <p className="mt-3 text-sm leading-6 text-slate-600">{racket.reason}</p>
             </Card>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>
