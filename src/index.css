@@ -603,8 +603,12 @@ h1 {
   margin: 0;
   opacity: 0;
   transform: scale(1.04);
-  animation: gallery-flip 15s ease-in-out infinite;
-  animation-delay: calc(var(--slide-index) * 5s);
+  transition: opacity 650ms ease, transform 850ms ease;
+}
+
+.gallery-slide.is-active {
+  opacity: 1;
+  transform: scale(1);
 }
 
 .gallery-slide img {
@@ -1582,12 +1586,6 @@ blockquote {
   }
 
   .gallery-slide {
-    animation: none !important;
-    opacity: 0;
-    transform: none;
-  }
-
-  .gallery-slide:first-child {
-    opacity: 1;
+    transition-duration: 220ms !important;
   }
 }

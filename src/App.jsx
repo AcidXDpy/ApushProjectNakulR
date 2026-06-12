@@ -125,6 +125,15 @@ function useScrollMotion() {
 
 function StoryPanel({ chapter, index }) {
   const Icon = chapter.icon;
+  const [activeSlide, setActiveSlide] = useState(0);
+
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      setActiveSlide((current) => (current + 1) % chapter.gallery.length);
+    }, 3600);
+
+    return () => window.clearInterval(timer);
+  }, [chapter.gallery.length]);
 
   return (
     <div className="visual-panel story-panel" aria-hidden="true">
@@ -134,7 +143,7 @@ function StoryPanel({ chapter, index }) {
       </div>
       <div className="image-gallery">
         {chapter.gallery.map((image, imageIndex) => (
-          <figure className="gallery-slide" key={image.src} style={{ '--slide-index': imageIndex }}>
+          <figure className={`gallery-slide ${activeSlide === imageIndex ? 'is-active' : ''}`} key={image.src}>
             <img src={image.src} alt="" />
             <figcaption>{image.caption}</figcaption>
           </figure>
