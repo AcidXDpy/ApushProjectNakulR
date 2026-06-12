@@ -75,7 +75,7 @@ const chapters = [
     gallery: [
       { src: '/images/story/future-office.jpg', caption: 'career variety' },
       { src: '/images/story/future-workspace.jpg', caption: 'work-life balance' },
-      { src: '/images/story/future-laptop.jpg', caption: 'future plans' },
+      { src: '/images/story/future-jamie-dimon.jpg', caption: 'business leadership' },
     ],
   },
 ];
