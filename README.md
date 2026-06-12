@@ -1,6 +1,6 @@
 # What America is to Nakul
 
-An APUSH final project website answering "What America means to me" through a bright, animated personal reflection on opportunity.
+An APUSH final project 
 
 ## Tech
 
