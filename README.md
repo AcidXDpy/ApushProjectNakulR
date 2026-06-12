@@ -1,6 +1,6 @@
-# CourtVision
+# What America is to Nakul
 
-CourtVision is a frontend-only React MVP for tennis players who want to understand how rackets, strings, tension, and specs can change their game.
+An APUSH final project website answering "What America means to me" through a bright, animated personal reflection on opportunity.
 
 ## Tech
 
@@ -8,7 +8,7 @@ CourtVision is a frontend-only React MVP for tennis players who want to understa
 - Vite
 - TailwindCSS
 - JavaScript
-- Local data only
+- Local image galleries for each story section
 
 ## Run Locally
 
@@ -17,12 +17,10 @@ npm install
 npm run dev
 ```
 
-Then open the local URL Vite prints in your terminal.
-
 ## Build
 
 ```bash
 npm run build
 ```
 
-This app has no backend, auth, database, Supabase, AI calls, or external APIs.
+The site is frontend-only and ready for Vercel.
