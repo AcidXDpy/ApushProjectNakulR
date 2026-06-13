@@ -262,7 +262,6 @@ export default function App() {
 
         <section className="sources-section reveal" id="sources">
           <p className="eyebrow">APUSH Connection</p>
-          <h2>The American Dream is not one dream. It changes depending on who is carrying it.</h2>
           <div className="source-grid">
             {chapters.map((chapter) => (
               <a key={chapter.id} href={`#${chapter.id}`}>
