@@ -35,7 +35,7 @@ const chapters = [
       'America offers a great culture of sports that other countries do not prioritize as much, which I feel adds on to the American Dream.',
     artifacts: ['game day', 'practice', 'dedication'],
     gallery: [
-      { src: '/images/story/sports-court.jpg', caption: 'places to play' },
+      { src: '/images/story/sports-lebron.webp', caption: 'lebron mode' },
       { src: '/images/story/sports-running.jpg', caption: 'discipline' },
       { src: '/images/story/sports-track.jpg', caption: 'competition' },
     ],
@@ -54,7 +54,7 @@ const chapters = [
       'I really like watching movies and TV, and I was only able to do so because of the good film culture in the U.S.',
     artifacts: ['opening scene', 'shared playlist', 'camera rolling'],
     gallery: [
-      { src: '/images/story/media-cinema.jpg', caption: 'movie culture' },
+      { src: '/images/story/media-interstellar.jpg', caption: 'interstellar' },
       { src: '/images/story/media-theater.jpg', caption: 'a getaway' },
       { src: '/images/story/media-camera.jpg', caption: 'stories' },
     ],
@@ -73,7 +73,7 @@ const chapters = [
       'You can enjoy all the cultures of the world while working in the best companies globally, so that is a great perk of this nation. It is easy to compare and say that other nations offer better work experience, more work-life balance, or better paychecks, but I still feel that America balances these categories and anyone can be happy. It is easy to get lost and consumed by your job, but it is important to prioritize well-being and your outside life. This country offers the opportunity to do that, with a reasonable distribution of priority on hard work culture as well as leisure.',
     artifacts: ['career options', 'work life', 'future plans'],
     gallery: [
-      { src: '/images/story/future-office.jpg', caption: 'career variety' },
+      { src: '/images/story/future-money-guy.webp', caption: 'financial success' },
       { src: '/images/story/future-workspace.jpg', caption: 'work-life balance' },
       { src: '/images/story/future-jamie-dimon.jpg', caption: 'business leadership' },
     ],
