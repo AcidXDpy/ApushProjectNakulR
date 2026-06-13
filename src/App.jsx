@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react';
-import { ArrowDown, Clapperboard, Cpu, HeartHandshake, Sparkles, Trophy } from 'lucide-react';
+import { ArrowDown, Clapperboard, Cpu, HeartHandshake, Sparkles, Trophy, Utensils } from 'lucide-react';
 
 const chapters = [
   {
@@ -57,6 +57,25 @@ const chapters = [
       { src: '/images/story/media-interstellar.jpg', caption: 'interstellar' },
       { src: '/images/story/media-theater.jpg', caption: 'a getaway' },
       { src: '/images/story/media-dark-knight.jpg', caption: 'dark knight' },
+    ],
+  },
+  {
+    id: 'food',
+    label: 'Food',
+    kicker: 'Food & Culture',
+    title: 'Food shows how many different lives and cultures can come together in America.',
+    icon: Utensils,
+    accent: '#16a34a',
+    stat: 'At the table',
+    body:
+      'I think food is another part of America that shows opportunity because there is a great variety of food, and a lot of food tastes great. I like pizza in particular, and I feel like there are so many varieties of it, which shows just how diverse our country is. I like trying new foods, and my parents support it too, so it is one of the big aspects of my life.',
+    reflection:
+      'Conflict aside, food brings everyone together, no matter the color of their skin or the place they are from.',
+    artifacts: ['pizza slices', 'fast food', 'taco night'],
+    gallery: [
+      { src: '/images/story/food-mcdonalds.jpg', caption: 'mcdonalds' },
+      { src: '/images/story/food-pizza.jpg', caption: 'pizza' },
+      { src: '/images/story/food-tacos.jpg', caption: 'tacos' },
     ],
   },
   {
@@ -258,8 +277,8 @@ export default function App() {
             <p>
               Though America is not a perfect country, I view America as a complex dream. I see it as a place where
               sacrifice turns into results and where ambition can sometimes become achievements. Sports helped me
-              understand belonging, media helped me imagine possibility, and working toward my future helped me
-              understand my purpose. Putting all these together, this is my America.
+              understand belonging, media helped me imagine possibility, food helped me understand connection, and
+              working toward my future helped me understand my purpose. Putting all these together, this is my America.
             </p>
           </div>
         </section>
