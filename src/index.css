@@ -240,10 +240,10 @@ a {
 
 .hero-photo-card {
   position: absolute;
-  left: 14px;
-  bottom: 13vh;
+  left: -48px;
+  bottom: 7vh;
   z-index: 1;
-  width: clamp(92px, 7vw, 124px);
+  width: clamp(158px, 14vw, 218px);
   margin: 0;
   padding: 10px 10px 14px;
   border: 1px solid rgba(36, 24, 18, 0.12);
@@ -1410,9 +1410,9 @@ blockquote {
   }
 
   .hero-photo-card {
-    left: 22px;
-    bottom: 7vh;
-    width: 118px;
+    left: 18px;
+    bottom: 6vh;
+    width: 142px;
     opacity: 0.76;
   }
 
@@ -1508,9 +1508,9 @@ blockquote {
   .hero-photo-card {
     left: 18px;
     bottom: 20px;
-    width: 104px;
+    width: 124px;
     padding: 6px 6px 9px;
-    opacity: 0.66;
+    opacity: 0.72;
   }
 
   .hero-photo-card figcaption {
