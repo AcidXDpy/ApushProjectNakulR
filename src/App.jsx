@@ -56,7 +56,7 @@ const chapters = [
     gallery: [
       { src: '/images/story/media-interstellar.jpg', caption: 'interstellar' },
       { src: '/images/story/media-theater.jpg', caption: 'a getaway' },
-      { src: '/images/story/media-camera.jpg', caption: 'stories' },
+      { src: '/images/story/media-dark-knight.jpg', caption: 'dark knight' },
     ],
   },
   {
