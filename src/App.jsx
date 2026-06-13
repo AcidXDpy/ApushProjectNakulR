@@ -18,7 +18,7 @@ const chapters = [
     gallery: [
       { src: '/images/story/beginning-wemby-shaolin.png', caption: 'wemby mode' },
       { src: '/images/story/beginning-study.jpg', caption: 'work at home' },
-      { src: '/images/story/beginning-books.jpg', caption: 'building habits' },
+      { src: '/images/story/beginning-kumon-logo.webp', caption: 'kumon training' },
     ],
   },
   {
@@ -78,12 +78,6 @@ const chapters = [
       { src: '/images/story/future-jamie-dimon.jpg', caption: 'business leadership' },
     ],
   },
-];
-
-const principles = [
-  'Opportunity starts as a family decision, then becomes a personal responsibility.',
-  'Sports, media, and future careers are not random categories; they are places where Americans practice ambition.',
-  'What America means to me is simple: a chance given by my parents, shaped by culture, and carried into my future.',
 ];
 
 function useScrollMotion() {
@@ -226,15 +220,6 @@ export default function App() {
               </a>
             </div>
           </div>
-        </section>
-
-        <section className="principles-band reveal" aria-label="Core ideas">
-          {principles.map((principle, index) => (
-            <article key={principle}>
-              <span>{String(index + 1).padStart(2, '0')}</span>
-              <p>{principle}</p>
-            </article>
-          ))}
         </section>
 
         <section className="story-bridge reveal">
