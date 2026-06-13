@@ -222,16 +222,6 @@ export default function App() {
           </div>
         </section>
 
-        <section className="story-bridge reveal">
-          <p className="eyebrow">Thesis</p>
-          <h2>This is not just about success. It is about what a chance can turn into.</h2>
-          <p>
-            APUSH shows that America has always been shaped by people moving, working, arguing, creating, and trying to
-            expand what opportunity means. My version of that story is smaller, but it connects to the same idea: the
-            country matters because it gives people room to try.
-          </p>
-        </section>
-
         <section className="timeline-wrap" aria-label="Opportunity story chapters">
           {chapters.map((chapter, index) => {
             const Icon = chapter.icon;
