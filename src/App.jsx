@@ -36,7 +36,7 @@ const chapters = [
     artifacts: ['game day', 'practice', 'dedication'],
     gallery: [
       { src: '/images/story/sports-lebron.webp', caption: 'lebron mode' },
-      { src: '/images/story/sports-running.jpg', caption: 'discipline' },
+      { src: '/images/story/sports-ronaldo.jpg', caption: 'ronaldo mode' },
       { src: '/images/story/sports-track.jpg', caption: 'competition' },
     ],
   },
