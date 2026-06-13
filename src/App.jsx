@@ -30,7 +30,7 @@ const chapters = [
     accent: '#e4572e',
     stat: 'After school',
     body:
-      'I think America does sports like no other country in the world. There is a great variety of sports to be played and to be watched, so people have a great diversion from the tolls of real life and a way to destress and relax. Though I have not been greatly successful in any sports, they have been a core part of my life since I was very young, and I think they taught me important skills like dedication and perseverance.',
+      'I think America does sports like no other country in the world. There is a great variety of sports to be played and to be watched, so people have a great diversion from the tolls of real life and a way to destress and relax. Though I have not been greatly successful in any sports, they have been a core part of my life since I was very young, and I think they taught me important skills like dedication and perseverance. I still remember the day I saw LeBron come back from 3-1 and win Game 7 in 2016. The joy that came to me is incomparable, and I feel like that would not have been possible without the great sports culture of this nation. America has gifted me the blessing of witnessing LeBron in his prime, which is irreplaceable.',
     reflection:
       'America offers a great culture of sports that other countries do not prioritize as much, which I feel adds on to the American Dream.',
     artifacts: ['game day', 'practice', 'dedication'],
