@@ -191,6 +191,10 @@ export default function App() {
               <Cpu size={26} />
               future
             </div>
+            <figure className="hero-photo-card">
+              <img src="/images/story/hero-nakul-school.jpg" alt="" />
+              <figcaption>where it started</figcaption>
+            </figure>
             <div className="hero-map">
               <span />
               <span />
